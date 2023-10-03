@@ -2,6 +2,7 @@ import { DragDropContext, Draggable, DraggableLocation, DropResult, Droppable } 
 import "./App.css";
 import { useState } from "react";
 import DropppableTask from "./components/DropppableTask";
+import InputBar from "./components/InputBar";
 
 export type TaskItem = {
   id: number;
@@ -60,13 +61,23 @@ function App() {
     moveItems(source, destination);
   };
 
+  const addTask = (text: string) => {
+    setTasks((prev) => ({
+      ...prev,
+      todo: [...prev.todo, { id: new Date().getTime(), name: text }],
+    }));
+  };
+
   return (
     <div className="global">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <DropppableTask id="todo" tasks={tasks.todo} />
-        <DropppableTask id="doing" tasks={tasks.doing} />
-        <DropppableTask id="done" tasks={tasks.done} />
-      </DragDropContext>
+      <div className="wrapper">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <DropppableTask id="todo" tasks={tasks.todo} />
+          <DropppableTask id="doing" tasks={tasks.doing} />
+          <DropppableTask id="done" tasks={tasks.done} />
+        </DragDropContext>
+      </div>
+      <InputBar addTask={addTask} />
     </div>
   );
 }
