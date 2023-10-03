@@ -1,8 +1,19 @@
 import { DragDropContext, Draggable, DraggableLocation, DropResult, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 import { useState } from "react";
+import DropppableTask from "./components/DropppableTask";
 
-const data = {
+export type TaskItem = {
+  id: number;
+  name: string;
+};
+
+export type TaskStatus = "todo" | "doing" | "done";
+export type Task = {
+  [status in TaskStatus]: TaskItem[];
+};
+
+const data: Task = {
   todo: [
     {
       id: 1,
@@ -23,6 +34,12 @@ const data = {
       name: "ddd",
     },
   ],
+  done: [
+    {
+      id: 5,
+      name: "eee",
+    },
+  ],
 };
 
 function App() {
@@ -33,57 +50,22 @@ function App() {
     const destIdx = dest.index;
     const tmp = { ...tasks };
 
-    const [deleted] = tmp[source.droppableId].splice(sourceIdx, 1);
-    tmp[dest.droppableId].splice(destIdx, 0, deleted);
+    const [deleted] = tmp[source.droppableId as TaskStatus].splice(sourceIdx, 1);
+    tmp[dest.droppableId as TaskStatus].splice(destIdx, 0, deleted);
     setTasks(tmp);
   };
+
   const onDragEnd = ({ source, destination }: DropResult) => {
     if (!destination || source.index === destination?.index) return;
     moveItems(source, destination);
   };
+
   return (
     <div className="global">
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="todo">
-          {(provided) => (
-            <div className="container todo" ref={provided.innerRef} {...provided.droppableProps}>
-              {tasks.todo.map((todo, idx) => (
-                <Draggable key={todo.id} draggableId={String(todo.id)} index={idx}>
-                  {(provided) => (
-                    <div
-                      className="item"
-                      ref={provided.innerRef}
-                      {...provided.dragHandleProps}
-                      {...provided.draggableProps}
-                    >
-                      <div>{todo.name}</div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            </div>
-          )}
-        </Droppable>
-        <Droppable droppableId="doing">
-          {(provided) => (
-            <div className="container doing" ref={provided.innerRef} {...provided.droppableProps}>
-              {tasks.doing.map((doing, idx) => (
-                <Draggable key={doing.id} draggableId={String(doing.id)} index={idx}>
-                  {(provided) => (
-                    <div
-                      className="item"
-                      ref={provided.innerRef}
-                      {...provided.dragHandleProps}
-                      {...provided.draggableProps}
-                    >
-                      <div>{doing.name}</div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            </div>
-          )}
-        </Droppable>
+        <DropppableTask id="todo" tasks={tasks.todo} />
+        <DropppableTask id="doing" tasks={tasks.doing} />
+        <DropppableTask id="done" tasks={tasks.done} />
       </DragDropContext>
     </div>
   );
