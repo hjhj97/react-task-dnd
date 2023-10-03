@@ -68,13 +68,17 @@ function App() {
     }));
   };
 
+  const deleteTask = (status: TaskStatus, id: number) => {
+    setTasks((prev) => ({ ...prev, [status]: prev[status].filter((item) => item.id !== id) }));
+  };
+
   return (
     <div className="global">
       <div className="wrapper">
         <DragDropContext onDragEnd={onDragEnd}>
-          <DropppableTask id="todo" tasks={tasks.todo} />
-          <DropppableTask id="doing" tasks={tasks.doing} />
-          <DropppableTask id="done" tasks={tasks.done} />
+          <DropppableTask id="todo" tasks={tasks.todo} deleteTask={deleteTask} />
+          <DropppableTask id="doing" tasks={tasks.doing} deleteTask={deleteTask} />
+          <DropppableTask id="done" tasks={tasks.done} deleteTask={deleteTask} />
         </DragDropContext>
       </div>
       <InputBar addTask={addTask} />

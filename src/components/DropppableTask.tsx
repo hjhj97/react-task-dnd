@@ -5,9 +5,10 @@ import { TaskItem, TaskStatus } from "../App";
 type DropppableTaskProps = {
   id: TaskStatus;
   tasks: TaskItem[];
+  deleteTask: (status: TaskStatus, id: number) => void;
 };
 
-function DropppableTask({ id, tasks }: DropppableTaskProps) {
+function DropppableTask({ id, tasks, deleteTask }: DropppableTaskProps) {
   return (
     <div>
       <h2>{id}</h2>
@@ -23,7 +24,12 @@ function DropppableTask({ id, tasks }: DropppableTaskProps) {
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
                   >
-                    <div>{task.name}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      <span className="task-content">{task.name}</span>
+                      <span className="delete-button" onClick={() => deleteTask(id, task.id)}>
+                        &times;
+                      </span>
+                    </div>
                   </div>
                 )}
               </Draggable>

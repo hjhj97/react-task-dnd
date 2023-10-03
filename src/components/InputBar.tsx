@@ -9,6 +9,7 @@ function InputBar({ addTask }: InputBarProps) {
 
   const handleClick = () => {
     if (!inputRef.current) return;
+    if (inputRef.current.value === "") return;
     addTask(inputRef.current!.value);
     inputRef.current.value = "";
   };
