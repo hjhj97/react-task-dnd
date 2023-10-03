@@ -56,7 +56,7 @@ function App() {
   };
 
   const onDragEnd = ({ source, destination }: DropResult) => {
-    if (!destination || source.index === destination?.index) return;
+    if (!destination) return;
     moveItems(source, destination);
   };
 

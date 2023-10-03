@@ -13,7 +13,7 @@ function DropppableTask({ id, tasks }: DropppableTaskProps) {
       <h2>{id}</h2>
       <Droppable droppableId={id}>
         {(provided) => (
-          <div className="container todo" ref={provided.innerRef} {...provided.droppableProps}>
+          <div className="container" ref={provided.innerRef} {...provided.droppableProps}>
             {tasks.map((task, idx) => (
               <Draggable key={task.id} draggableId={String(task.id)} index={idx}>
                 {(provided) => (
@@ -28,6 +28,7 @@ function DropppableTask({ id, tasks }: DropppableTaskProps) {
                 )}
               </Draggable>
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
