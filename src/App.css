@@ -1,0 +1,15 @@
+.global {
+  display: flex;
+  justify-content: space-evenly;
+  width: 800px;
+  margin: 0 auto;
+}
+.container {
+  width: 200px;
+  height: 300px;
+  border: 1px solid black;
+}
+
+.item {
+  border: 1px solid red;
+}
